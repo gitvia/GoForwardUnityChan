@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour {
 
+    //キューブ接触時の音源
+    private AudioSource audioSource;
+
     //キューブの移動速度
     private float speed = -0.2f;
 
@@ -12,7 +15,7 @@ public class CubeController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        this.audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -26,4 +29,14 @@ public class CubeController : MonoBehaviour {
             Destroy(gameObject);
         }
 	}
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //キューブもしくは地面と接触したとき音を鳴らす
+        if (collision.gameObject.tag == "Cube" || collision.gameObject.tag=="Ground")
+        {
+            //オーディオを再生
+            this.audioSource.Play();
+        }
+    }
 }
